@@ -2,12 +2,63 @@
 #include <cstdlib>
 #include <windows.h>
 #include <cmath>
+#include <fstream>
+#include <vector>
 
 using namespace std;
 
-int main()
-{
+void loadFile(vector<int> &numbers) {
+    numbers.clear();
+    ifstream myFile;
+    string line;
+    myFile.open("random.txt", ios::in);
+    if (myFile.is_open()) {
+        while(getline(myFile, line)) {
+            numbers.push_back(stoi(line));
+        }
+        myFile.close();
+    }
+}
+
+void saveFile(vector<int> numbers) {
+    ofstream myFile;
+    myFile.open("random.txt", ios::out);
+    if (myFile.is_open()) {
+        for (int i = 0; i < numbers.size(); i++) {
+            myFile << numbers[i] << endl;
+        }
+        myFile.close();
+    }
+}
+
+void shuffle(vector<int> &numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        int j = (rand() % numbers.size() - i - 1)+ i + 1;
+        int temp =  numbers[i];
+        numbers[i] = numbers[j];
+        numbers[j] = temp;
+    }
+    cout << endl;
+}
+
+int main() {
+    srand(time(0));
+    ifstream file;
+    string line;
+    vector<int> numbers;
+    file.open("random.txt", ios::in);
+    if (file.is_open()) {
+        if (!getline(file, line)) {
+            for (int i = 1; i <= 10; i++) {
+                numbers.push_back(i);
+            }
+            saveFile(numbers);
+        }
+        file.close();
+    }
     int menuInp;
+    loadFile(numbers);
+
     do {
         system("cls");
         cout << "Tugas Minggu 1 Alpro" << endl;
@@ -22,7 +73,13 @@ int main()
 
             if (menuInp == 1) {
                 system("cls");
-
+                    cout << "[ ";
+                    for (int i = 0; i < numbers.size(); i++) {
+                        cout << numbers[i] << " ";
+                    }
+                    cout << " ]" << endl;
+                    shuffle(numbers);
+                    saveFile(numbers);
                 system("pause");
             } else if (menuInp == 2) {
                 system("cls");
@@ -59,7 +116,7 @@ int main()
                 system("pause");
             } else if (menuInp == 5) {
                 system("cls");
-                int arr[] = {10, 5, 7, 1, 3, 4, 50};
+                int arr[] = {10, 5, 7, 1, 3, 4};
                 int n = sizeof(arr)/sizeof(int);
                 for (int i = 0; i < n; i++) {
                     cout << arr[i] << " ";
@@ -73,7 +130,7 @@ int main()
                             arr[j + 1] = temp;
                         }
                     }
-                    for (int j = n - i - 1; j > i; j--) {
+                    for (int j = n - i - 2; j > i; j--) {
                         if (arr[j] < arr[j - 1]) {
                             int temp = arr[j];
                             arr[j] = arr[j - 1];
@@ -82,7 +139,6 @@ int main()
                     }
                 }
 
-                cout << endl;
                 for (int i = 0; i < n; i++) {
                     cout << arr[i] << " ";
                 }
