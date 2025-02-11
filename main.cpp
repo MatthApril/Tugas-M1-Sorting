@@ -4,6 +4,8 @@
 #include <cmath>
 #include <fstream>
 #include <vector>
+#include <ctime>
+#include <string>
 
 using namespace std;
 
@@ -42,6 +44,8 @@ void shuffle(vector<int> &numbers) {
 }
 
 void bubbleSort(vector<int> numbers) {
+    time_t start_time;
+    time(&start_time);
     for (int i = 0; i < numbers.size(); i++) {
         for (int j = 0; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -51,16 +55,23 @@ void bubbleSort(vector<int> numbers) {
             }
         }
     }
+    time_t end_time;
+    time(&end_time);
 
     cout << endl;
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << " ";
     }
     cout << endl;
+    double duration = difftime(end_time, start_time);
+    cout << "Bubble Sort took " << end_time - start_time << " seconds" << endl;
+    cout << endl;
 
 }
 
 void twoWayBubble(vector<int> numbers) {
+    time_t start_time;
+    time(&start_time);
     for (int i = 0; i < numbers.size(); i++) {
         for (int j = i; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -77,12 +88,16 @@ void twoWayBubble(vector<int> numbers) {
             }
         }
     }
+    time_t end_time;
+    time(&end_time);
 
     cout << endl;
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << " ";
     }
     cout << endl;
+    double duration = difftime(end_time, start_time);
+    cout << "Two Way Bubble Sort took " << end_time - start_time << " seconds" << endl;
 }
 
 int main() {
@@ -93,7 +108,7 @@ int main() {
     file.open("random.txt", ios::in);
     if (file.is_open()) {
         if (!getline(file, line)) {
-            for (int i = 1; i <= 1000000; i++) {
+            for (int i = 1; i <= 100000; i++) {
                 numbers.push_back(i);
             }
             saveFile(numbers);
