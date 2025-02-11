@@ -43,10 +43,6 @@ void shuffle(vector<int> &numbers) {
 
 void bubbleSort(vector<int> numbers) {
     for (int i = 0; i < numbers.size(); i++) {
-        cout << numbers[i] << " ";
-    }
-
-    for (int i = 0; i < numbers.size(); i++) {
         for (int j = 0; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
                 int temp = numbers[j];
@@ -61,13 +57,10 @@ void bubbleSort(vector<int> numbers) {
         cout << numbers[i] << " ";
     }
     cout << endl;
+
 }
 
 void twoWayBubble(vector<int> numbers) {
-    for (int i = 0; i < numbers.size(); i++) {
-        cout << numbers[i] << " ";
-    }
-
     for (int i = 0; i < numbers.size(); i++) {
         for (int j = i; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -100,12 +93,11 @@ int main() {
     file.open("random.txt", ios::in);
     if (file.is_open()) {
         if (!getline(file, line)) {
-            for (int i = 1; i <= 1000; i++) {
+            for (int i = 1; i <= 1000000; i++) {
                 numbers.push_back(i);
             }
             saveFile(numbers);
         }
-        file.close();
     }
     int menuInp;
     loadFile(numbers);
