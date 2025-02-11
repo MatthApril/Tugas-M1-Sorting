@@ -41,6 +41,57 @@ void shuffle(vector<int> &numbers) {
     cout << endl;
 }
 
+void bubbleSort(vector<int> numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+
+    for (int i = 0; i < numbers.size(); i++) {
+        for (int j = 0; j < numbers.size() - i - 1; j++) {
+            if (numbers[j] > numbers[j + 1]) {
+                int temp = numbers[j];
+                numbers[j] = numbers[j + 1];
+                numbers[j + 1] = temp;
+            }
+        }
+    }
+
+    cout << endl;
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+}
+
+void twoWayBubble(vector<int> numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+
+    for (int i = 0; i < numbers.size(); i++) {
+        for (int j = i; j < numbers.size() - i - 1; j++) {
+            if (numbers[j] > numbers[j + 1]) {
+                int temp = numbers[j];
+                numbers[j] = numbers[j + 1];
+                numbers[j + 1] = temp;
+            }
+        }
+        for (int j = numbers.size() - i - 2; j > i; j--) {
+            if (numbers[j] < numbers[j - 1]) {
+                int temp = numbers[j];
+                numbers[j] = numbers[j - 1];
+                numbers[j - 1] = temp;
+            }
+        }
+    }
+
+    cout << endl;
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+}
+
 int main() {
     srand(time(0));
     ifstream file;
@@ -49,7 +100,7 @@ int main() {
     file.open("random.txt", ios::in);
     if (file.is_open()) {
         if (!getline(file, line)) {
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 1000; i++) {
                 numbers.push_back(i);
             }
             saveFile(numbers);
@@ -91,59 +142,11 @@ int main() {
                 system("pause");
             } else if (menuInp == 4) {
                 system("cls");
-                int arr[] = {10, 5, 7, 1, 3, 100};
-                int n = sizeof(arr)/sizeof(int);
-                cout << n << endl;
-                for (int i = 0; i < n; i++) {
-                    cout << arr[i] << " ";
-                }
-
-                for (int i = 0; i < n / 2 + 1; i++) {
-                    for (int j = 0; j < n - i - 1; j++) {
-                        if (arr[j] > arr[j + 1]) {
-                            int temp = arr[j];
-                            arr[j] = arr[j + 1];
-                            arr[j + 1] = temp;
-                        }
-                    }
-                }
-
-                cout << endl;
-                for (int i = 0; i < n; i++) {
-                    cout << arr[i] << " ";
-                }
-                cout << endl;
+                bubbleSort(numbers);
                 system("pause");
             } else if (menuInp == 5) {
                 system("cls");
-                int arr[] = {10, 5, 7, 1, 3, 4};
-                int n = sizeof(arr)/sizeof(int);
-                for (int i = 0; i < n; i++) {
-                    cout << arr[i] << " ";
-                }
-
-                for (int i = 0; i < sqrt(n); i++) {
-                    for (int j = i; j < n - i - 1; j++) {
-                        if (arr[j] > arr[j + 1]) {
-                            int temp = arr[j];
-                            arr[j] = arr[j + 1];
-                            arr[j + 1] = temp;
-                        }
-                    }
-                    for (int j = n - i - 2; j > i; j--) {
-                        if (arr[j] < arr[j - 1]) {
-                            int temp = arr[j];
-                            arr[j] = arr[j - 1];
-                            arr[j - 1] = temp;
-                        }
-                    }
-                }
-
-                for (int i = 0; i < n; i++) {
-                    cout << arr[i] << " ";
-                }
-                cout << endl;
-
+                twoWayBubble(numbers);
                 system("pause");
             }
     } while (menuInp != 6);
