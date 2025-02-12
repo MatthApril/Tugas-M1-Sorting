@@ -43,6 +43,64 @@ void shuffle(vector<int> &numbers) {
     cout << endl;
 }
 
+void selectSort(vector<int> numbers) {
+    time_t start_time;
+    time(&start_time);
+    int minIndex;
+    for (int i = 0; i < numbers.size(); i++){
+        int mini = 11;
+        for (int j = i + 1; j < numbers.size(); j++){
+            if (mini > numbers[j]){
+                mini = numbers[j];
+                minIndex = j;
+            }
+        }
+        if (mini < numbers[i]) {
+            int temp = numbers[minIndex];
+            numbers[minIndex] = numbers[i];
+            numbers[i] = temp;
+        }
+    }
+    time_t end_time;
+    time(&end_time);
+
+    cout << endl;
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+    double duration = difftime(end_time, start_time);
+    cout << "Selection Sort took " << end_time - start_time << " seconds" << endl;
+    cout << endl;
+}
+
+void StraightSelect(vector<int> numbers){
+    time_t start_time;
+    time(&start_time);
+
+    for (int i = 0; i < numbers.size(); i++){
+        for (int j = i + 1; j < numbers.size(); j++){
+            if (numbers[i] > numbers[j]) {
+                int temp = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = temp;
+            }
+        }
+    }
+
+    time_t end_time;
+    time(&end_time);
+
+    cout << endl;
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+    double duration = difftime(end_time, start_time);
+    cout << "Straight Selection Sort took " << end_time - start_time << " seconds" << endl;
+    cout << endl;
+}
+
 void bubbleSort(vector<int> numbers) {
     time_t start_time;
     time(&start_time);
@@ -99,6 +157,7 @@ void twoWayBubble(vector<int> numbers) {
     double duration = difftime(end_time, start_time);
     cout << "Two Way Bubble Sort took " << end_time - start_time << " seconds" << endl;
 }
+
 
 int main() {
     srand(time(0));
