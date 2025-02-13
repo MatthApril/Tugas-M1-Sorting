@@ -158,6 +158,76 @@ void twoWayBubble(vector<int> numbers) {
     cout << "Two Way Bubble Sort took " << end_time - start_time << " seconds" << endl;
 }
 
+void draw(int score, int arena[15][5]) {
+    cout << "Score: " << score << endl;
+    for (int i = 0; i < 15; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (arena[i][j] == 1) {
+                cout << char(201);
+            } else if (arena[i][j] == 2) {
+                cout << char(187);
+            } else if (arena[i][j] == 3) {
+                cout << char(200);
+            } else if (arena[i][j] == 4) {
+                cout << char(188);
+            } else if (arena[i][j] == 10) {
+                cout << char(205) << char(205) << char(205);
+            } else if (arena[i][j] == 11) {
+                cout << char(186);
+            } else if (arena[i][j] == 5) {
+                cout << " " << char(219) << " ";
+            } else {
+                cout << "   ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+void fill(int arena[15][5], int x) {
+    arena[1][x] = 5;
+    for (int i = 0; i < 15; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (i == 0 && j == 0) {
+                arena[i][j] = 1;
+            } else if (i == 0 && j == 4) {
+                arena[i][j] = 2;
+            } else if (i == 14 && j == 0) {
+                arena[i][j] = 3;
+            } else if (i == 14 && j == 4) {
+                arena[i][j] = 4;
+            } else if (i == 0 || i == 14) {
+                arena[i][j] = 10;
+            } else if (j == 0 || j == 4) {
+                arena[i][j] = 11;
+            } else if (arena[i][j] != 5) {
+                arena[i][j] = 0;
+            }
+        }
+    }
+}
+
+void pianoTiles() {
+    int score = 0;
+    int arena[15][5];
+    while (true) {
+        int spawnX = rand() % 3 + 1;
+        fill(arena, spawnX);
+        draw(score, arena);
+        for (int i = 13; i >= 1; i--) {
+            for (int j = 1; j < 4; j++) {
+                if (arena[i][j] == 5) {
+                    arena[i][j] = 0;
+                    if (i + 1 < 13) {
+                        arena[i + 1][j] = 5;
+                    }   
+                }
+            }
+        }
+        Sleep(1000);
+        system("cls");
+    }
+}
 
 int main() {
     srand(time(0));
@@ -184,7 +254,8 @@ int main() {
              << "3. Straight Selection\n"
              << "4. Bubble\n"
              << "5. Two Way Bubble\n"
-             << "6. Exit" << endl;
+             << "6. Play Games\n"
+             << "7. Exit" << endl;
         cout << ">> ";
         cin >> menuInp;
 
@@ -214,8 +285,12 @@ int main() {
                 system("cls");
                 twoWayBubble(numbers);
                 system("pause");
+            } else if (menuInp == 6) {
+                system("cls");
+                pianoTiles();
+                system("pause");
             }
-    } while (menuInp != 6);
+    } while (menuInp != 7);
 
     return 0;
 }
