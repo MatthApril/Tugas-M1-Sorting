@@ -48,7 +48,7 @@ void selectSort(vector<int> numbers) {
     time(&start_time);
     int minIndex;
     for (int i = 0; i < numbers.size(); i++){
-        int mini = 11;
+        int mini = 1000001;
         for (int j = i + 1; j < numbers.size(); j++){
             if (mini > numbers[j]){
                 mini = numbers[j];
@@ -167,7 +167,7 @@ int main() {
     file.open("random.txt", ios::in);
     if (file.is_open()) {
         if (!getline(file, line)) {
-            for (int i = 1; i <= 100000; i++) {
+            for (int i = 1; i <= 1000000; i++) {
                 numbers.push_back(i);
             }
             saveFile(numbers);
@@ -200,11 +200,11 @@ int main() {
                 system("pause");
             } else if (menuInp == 2) {
                 system("cls");
-
+                selectSort(numbers);
                 system("pause");
             } else if (menuInp == 3) {
                 system("cls");
-
+                StraightSelect(numbers);
                 system("pause");
             } else if (menuInp == 4) {
                 system("cls");
