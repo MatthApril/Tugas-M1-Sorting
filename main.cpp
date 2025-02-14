@@ -169,6 +169,7 @@ void ResetColor() {
 }
 
 void draw(int score, int arena[15][5]) {
+    cout << "Piano Tiles Beta Version" << endl;
     cout << "Score: " << score << endl;
     for (int i = 0; i < 15; i++) {
         for (int j = 0; j < 5; j++) {
@@ -196,7 +197,12 @@ void draw(int score, int arena[15][5]) {
         }
         cout << endl;
     }
-    cout << "  a  s  d  " << endl << endl;
+    cout << "  a  s  d  " << endl;
+    cout << endl;
+    cout << "Press (a) when the tiles on a column" << endl;
+    cout << "Press (s) when the tiles on s column" << endl;
+    cout << "Press (d) when the tiles on d column" << endl;
+    cout << endl;
 }
 
 int getYVal(int arena[15][5]) {
@@ -236,11 +242,11 @@ void fillArena(int arena[15][5], int x) {
 void gameOver(int score , int arena[15][5]) {
     draw(score, arena);
     cout << "Game Over" << endl;
-    cout << "Score: " << score << endl;
+    cout << "Score: " << score << endl << endl;
 }
 
 void pianoTiles() {
-    int score = 0;
+    int score = 0, speed = 1000;
     int arena[15][5];
     while (true) {
         int spawnX = rand() % 3 + 1;
@@ -296,7 +302,13 @@ void pianoTiles() {
             }
         }
 
-        Sleep(1000);
+        if (score > 25) {
+            speed = 500;
+        } else if (score > 15) {
+            speed = 700;
+        }
+
+        Sleep(speed);
         system("cls");
     }
 }
