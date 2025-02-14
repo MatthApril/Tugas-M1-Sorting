@@ -6,6 +6,7 @@
 #include <vector>
 #include <ctime>
 #include <string>
+#include <conio.h>
 
 using namespace std;
 
@@ -158,6 +159,15 @@ void twoWayBubble(vector<int> numbers) {
     cout << "Two Way Bubble Sort took " << end_time - start_time << " seconds" << endl;
 }
 
+void SetColor(int textColor)
+{
+    cout << "\033[" << textColor << "m";
+}
+
+void ResetColor() {
+    cout << "\033[0m";
+}
+
 void draw(int score, int arena[15][5]) {
     cout << "Score: " << score << endl;
     for (int i = 0; i < 15; i++) {
@@ -176,15 +186,31 @@ void draw(int score, int arena[15][5]) {
                 cout << char(186);
             } else if (arena[i][j] == 5) {
                 cout << " " << char(219) << " ";
+            } else if (arena[i][j] == 6) {
+                SetColor(31);
+                cout << " " << char(219) << " ";
+                ResetColor();
             } else {
                 cout << "   ";
             }
         }
         cout << endl;
     }
+    cout << "  a  s  d  " << endl << endl;
 }
 
-void fill(int arena[15][5], int x) {
+int getYVal(int arena[15][5]) {
+    for (int i = 13; i >= 1; i--) {
+        for (int j = 1; j < 4; j++) {
+            if (arena[i][j] == 5) {
+                return i;
+            }
+        }
+    }
+    return 0;
+}
+
+void fillArena(int arena[15][5], int x) {
     arena[1][x] = 5;
     for (int i = 0; i < 15; i++) {
         for (int j = 0; j < 5; j++) {
@@ -207,23 +233,69 @@ void fill(int arena[15][5], int x) {
     }
 }
 
+void gameOver(int score , int arena[15][5]) {
+    draw(score, arena);
+    cout << "Game Over" << endl;
+    cout << "Score: " << score << endl;
+}
+
 void pianoTiles() {
     int score = 0;
     int arena[15][5];
     while (true) {
         int spawnX = rand() % 3 + 1;
-        fill(arena, spawnX);
+        fillArena(arena, spawnX);
+        if (getYVal(arena) == 13) {
+            gameOver(score, arena);
+            break;
+        }
+
+        char control;
+        if(kbhit()) {
+            control = getch();
+            if (control == 'a') {
+                if (arena[getYVal(arena)][1] == 5) {
+                    arena[getYVal(arena)][1] = 0;
+                    score++;
+                } else {
+                    arena[getYVal(arena)][1] = 6;
+                    gameOver(score, arena);
+                    break;
+                }
+            } else if (control == 's') {
+                if (arena[getYVal(arena)][2] == 5) {
+                    arena[getYVal(arena)][2] = 0;
+                    score++;
+                } else {
+                    arena[getYVal(arena)][2] = 6;
+                    gameOver(score, arena);
+                    break;
+                }
+            } else if (control == 'd') {
+                if (arena[getYVal(arena)][3] == 5) {
+                    arena[getYVal(arena)][3] = 0;
+                    score++;
+                } else {
+                    arena[getYVal(arena)][3] = 6;
+                    gameOver(score, arena);
+                    break;
+                }
+            }
+        }
+
         draw(score, arena);
+
         for (int i = 13; i >= 1; i--) {
             for (int j = 1; j < 4; j++) {
                 if (arena[i][j] == 5) {
                     arena[i][j] = 0;
-                    if (i + 1 < 13) {
+                    if (i + 1 <= 13) {
                         arena[i + 1][j] = 5;
-                    }   
+                    }
                 }
             }
         }
+
         Sleep(1000);
         system("cls");
     }
