@@ -10,6 +10,12 @@
 
 using namespace std;
 
+int totalScore = 0;
+int selectSortTime,
+    straightSortTime,
+    bubbleSortTime,
+    twoWaySortTime;
+
 void loadFile(vector<int> &numbers) {
     numbers.clear();
     ifstream myFile;
@@ -45,9 +51,11 @@ void shuffle(vector<int> &numbers) {
 }
 
 void selectSort(vector<int> numbers) {
+    cout << "Sorting..." << endl;
     time_t start_time;
     time(&start_time);
     int minIndex;
+
     for (int i = 0; i < numbers.size(); i++){
         int mini = 1000001;
         for (int j = i + 1; j < numbers.size(); j++){
@@ -70,12 +78,13 @@ void selectSort(vector<int> numbers) {
         cout << numbers[i] << " ";
     }
     cout << endl;
-    double duration = difftime(end_time, start_time);
-    cout << "Selection Sort took " << end_time - start_time << " seconds" << endl;
+    selectSortTime = end_time - start_time;
+    cout << "Selection Sort took " << selectSortTime << " seconds" << endl;
     cout << endl;
 }
 
 void StraightSelect(vector<int> numbers){
+    cout << "Sorting..." << endl;
     time_t start_time;
     time(&start_time);
 
@@ -97,14 +106,16 @@ void StraightSelect(vector<int> numbers){
         cout << numbers[i] << " ";
     }
     cout << endl;
-    double duration = difftime(end_time, start_time);
-    cout << "Straight Selection Sort took " << end_time - start_time << " seconds" << endl;
+    straightSortTime = end_time - start_time;
+    cout << "Straight Selection Sort took " << straightSortTime << " seconds" << endl;
     cout << endl;
 }
 
 void bubbleSort(vector<int> numbers) {
+    cout << "Sorting..." << endl;
     time_t start_time;
     time(&start_time);
+
     for (int i = 0; i < numbers.size(); i++) {
         for (int j = 0; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -122,15 +133,17 @@ void bubbleSort(vector<int> numbers) {
         cout << numbers[i] << " ";
     }
     cout << endl;
-    double duration = difftime(end_time, start_time);
-    cout << "Bubble Sort took " << end_time - start_time << " seconds" << endl;
+    bubbleSortTime = end_time - start_time;
+    cout << "Bubble Sort took " << bubbleSortTime << " seconds" << endl;
     cout << endl;
 
 }
 
 void twoWayBubble(vector<int> numbers) {
+    cout << "Sorting..." << endl;
     time_t start_time;
     time(&start_time);
+
     for (int i = 0; i < numbers.size(); i++) {
         for (int j = i; j < numbers.size() - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -155,8 +168,8 @@ void twoWayBubble(vector<int> numbers) {
         cout << numbers[i] << " ";
     }
     cout << endl;
-    double duration = difftime(end_time, start_time);
-    cout << "Two Way Bubble Sort took " << end_time - start_time << " seconds" << endl;
+    twoWaySortTime = end_time - start_time;
+    cout << "Two Way Bubble Sort took " << twoWaySortTime << " seconds" << endl;
 }
 
 void SetColor(int textColor)
@@ -243,6 +256,7 @@ void gameOver(int score , int arena[15][5]) {
     draw(score, arena);
     cout << "Game Over" << endl;
     cout << "Score: " << score << endl << endl;
+    totalScore += score;
 }
 
 void pianoTiles() {
@@ -313,6 +327,17 @@ void pianoTiles() {
     }
 }
 
+string printSummary(int accumulator, string type){
+    if (accumulator > 0){
+        if (type == "Time")
+            return "(" + to_string(accumulator) + " Seconds)";
+        else if (type == "Score")
+            return "(Total Score: " + to_string(accumulator) + ")";
+    }
+
+    return "";
+}
+
 int main() {
     srand(time(0));
     ifstream file;
@@ -327,32 +352,42 @@ int main() {
             saveFile(numbers);
         }
     }
-    int menuInp;
+    int menuInp, chooseShuffle;
     loadFile(numbers);
 
     do {
         system("cls");
         cout << "Tugas Minggu 1 Alpro" << endl;
         cout << "1. Generate Angka\n"
-             << "2. Selection\n"
-             << "3. Straight Selection\n"
-             << "4. Bubble\n"
-             << "5. Two Way Bubble\n"
-             << "6. Play Games\n"
+             << "2. Selection " << printSummary(selectSortTime, "Time") << endl
+             << "3. Straight Selection " << printSummary(straightSortTime, "Time") << endl
+             << "4. Bubble " << printSummary(bubbleSortTime, "Time") << endl
+             << "5. Two Way Bubble " << printSummary(twoWaySortTime, "Time") << endl
+             << "6. Mini-game " << printSummary(totalScore, "Score") << endl
              << "7. Exit" << endl;
         cout << ">> ";
         cin >> menuInp;
 
             if (menuInp == 1) {
                 system("cls");
-                    cout << "[ ";
-                    for (int i = 0; i < numbers.size(); i++) {
-                        cout << numbers[i] << " ";
-                    }
-                    cout << " ]" << endl;
-                    shuffle(numbers);
-                    saveFile(numbers);
-                system("pause");
+                    do {
+                        cout << "Start shuffling?" << endl;
+                        cout << "1. Yes\n"
+                             << "2. No\n";
+                        cout << ">> ";
+                        cin >> chooseShuffle;
+                        system("cls");
+                    } while (chooseShuffle < 1 || chooseShuffle > 2);
+                        if (chooseShuffle == 1){
+                            cout << "[ ";
+                            for (int i = 0; i < numbers.size(); i++) {
+                                cout << numbers[i] << " ";
+                            }
+                            cout << " ]" << endl;
+                            shuffle(numbers);
+                            saveFile(numbers);
+                        system("pause");
+                        }
             } else if (menuInp == 2) {
                 system("cls");
                 selectSort(numbers);

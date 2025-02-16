@@ -4,3 +4,14 @@
 	<cstdlib>
 	<windows.h>
 
+1739607100 source:d:\files kuliah\inf_semester_2\algorithm programming 2\tugas-m1-sorting\main.cpp
+	<iostream>
+	<cstdlib>
+	<windows.h>
+	<cmath>
+	<fstream>
+	<vector>
+	<ctime>
+	<string>
+	<conio.h>
+
